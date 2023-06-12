@@ -15,52 +15,46 @@
 //    })
 //})()
 
-const validator = new window.JustValidate("#form-email");
+//const validator = new window.JustValidate("#form-email");
 
-validator
-    .addField("#email", [
-        {
-            rule: "required",
-        },
-        {
-            rule: "email",
-        },
-    ]);
+//validator
+//    .addField("#email", [
+//        {
+//            rule: "required",
+//        },
+//        {
+//            rule: "email",
+//        },
+//    ]);
 
-//const formEmail = document.querySelector("#form-email");
-//const email = document.getElementById("email");
-//const emailError = document.querySelector("#email + span.error");
+const form = document.querySelector("#form-email");
+const email = document.getElementById("email");
+const error = document.querySelector(".error");
 
-//email.addEventListener("input", (event) => {
-//    if (email.validity.valid) {
-//        emailError.textContent = "";
-//        emailError.className = "error";
-//    }
-//    else {
-//        showError();
-//    }
-//});
+email.addEventListener("input", (event) => {
+    if (email.validity.valid) {
+        error.textContent = "";
+    }
+    else {
+        showError();
+    }
+});
 
-//formEmail.addEventListener("submit", (event) => {
-//    if (!email.validity.valid) {
-//        showError();
-//        event.preventDefault();
-//    }
-//    else {
-//        alert("Success!");
-//    }
-//});
+form.addEventListener("submit", (event) => {
+    if (!email.validity.valid) {
+        showError();
+        event.preventDefault();
+    }
+    else {
+        alert("Success!");
+    }
+});
 
-//function showError() {
-//    if (email.validity.valueMissing) {
-//        emailError.textContent = "The field is required";
-//    }
-//    else if (email.validity.typeMismatch) {
-//        emailError.textContent = "Invalid email address";
-//    }
-//    else if (email.validity.tooShort) {
-//        emailError.textContent = `Email should be at least ${email.minLength} characters; you entered ${email.value.length}`;
-//    }
-
-//    emailError.className = "error active";
-//}
+function showError() {
+    if (email.validity.valueMissing) {
+        error.textContent = "The field is required";
+    }
+    else if (email.validity.patternMismatch) {
+        error.textContent = "Invalid email address";
+    }
+}

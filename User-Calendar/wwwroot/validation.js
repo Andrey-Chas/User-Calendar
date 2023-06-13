@@ -27,12 +27,14 @@
 //        },
 //    ]);
 
-const form = document.querySelector("#form-email");
-const email = document.getElementById("email");
+const form = document.querySelector("form");
+const formShow = document.querySelector("#showData");
+const input = document.getElementById("value");
+const inputName = input.getAttribute("name");
 const error = document.querySelector(".error");
 
-email.addEventListener("input", (event) => {
-    if (email.validity.valid) {
+input.addEventListener("input", (event) => {
+    if (input.validity.valid) {
         error.textContent = "";
     }
     else {
@@ -41,20 +43,32 @@ email.addEventListener("input", (event) => {
 });
 
 form.addEventListener("submit", (event) => {
-    if (!email.validity.valid) {
+    if (!input.validity.valid) {
         showError();
         event.preventDefault();
     }
     else {
-        alert("Success!");
+        form.style.visibility = "collapse";
+        formShow.style.visibility = "visible";
+        document.getElementById("enteredData").value = input.value;
+        event.preventDefault();
     }
 });
 
+function Redirect() {
+    location = "data.html";
+}
+
 function showError() {
-    if (email.validity.valueMissing) {
+    if (input.validity.valueMissing) {
         error.textContent = "The field is required";
     }
-    else if (email.validity.patternMismatch) {
-        error.textContent = "Invalid email address";
+    else if (input.validity.patternMismatch) {
+        if (inputName == "email") {
+            error.textContent = "Invalid email address";
+        }
+        else {
+            error.textContent = "Invalid uuid";
+        }
     }
 }

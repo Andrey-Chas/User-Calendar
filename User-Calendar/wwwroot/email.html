@@ -16,6 +16,10 @@
                 <input name="email" type="text" id="value" class="input form-control" placeholder="Email" aria-label="Email" required pattern="[^\s@]+@[^\s@]+\.[^\s@]+" />
                 <span class="error text-danger"></span>
             </div>
+            <div class="mb-3">
+                <input name="calendarIdCallUuid" type="text" id="anotherValue" class="input form-control" placeholder="Calendar Id or Call Uuid" aria-label="Email" required />
+                <span class="errorSecondField text-danger"></span>
+            </div>
             <div class="col-md-12 text-center">
                 <button type="submit" class="btn btn-primary">Submit</button>
             </div>
@@ -26,6 +30,12 @@
                 <label for="providedData" class="col-sm-3 col-form-label">Email:</label>
                 <div class="col-sm-8">
                     <input type="text" id="enteredData" readonly class="form-control-plaintext" />
+                </div>
+            </div>
+            <div class="mb-3 row">
+                <label for="providedData" class="col-sm-3 col-form-label">Data:</label>
+                <div class="col-sm-8">
+                    <input type="text" id="anotherEnteredData" readonly class="form-control-plaintext" />
                 </div>
             </div>
         </form>

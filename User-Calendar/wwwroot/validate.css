@@ -2,6 +2,6 @@
     border-radius: 30px;
 }
 
-.error:empty {
+.errorSecondField:empty .error:empty {
     display: none;
 }

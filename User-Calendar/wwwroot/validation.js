@@ -33,6 +33,9 @@ const input = document.getElementById("value");
 const inputName = input.getAttribute("name");
 const error = document.querySelector(".error");
 
+const anotherInput = document.getElementById("anotherValue");
+const errorSecondField = document.querySelector(".errorSecondField");
+
 input.addEventListener("input", (event) => {
     if (input.validity.valid) {
         error.textContent = "";
@@ -42,22 +45,29 @@ input.addEventListener("input", (event) => {
     }
 });
 
+anotherInput.addEventListener("input", (event) => {
+    if (anotherInput.validity.valid) {
+        errorSecondField.textContent = "";
+    }
+    else {
+        showErrorSecondValue();
+    }
+});
+
 form.addEventListener("submit", (event) => {
     if (!input.validity.valid) {
         showError();
+        showErrorSecondValue();
         event.preventDefault();
     }
     else {
         form.style.visibility = "collapse";
         formShow.style.visibility = "visible";
         document.getElementById("enteredData").value = input.value;
+        document.getElementById("anotherEnteredData").value = anotherInput.value;
         event.preventDefault();
     }
 });
-
-function Redirect() {
-    location = "data.html";
-}
 
 function showError() {
     if (input.validity.valueMissing) {
@@ -70,5 +80,11 @@ function showError() {
         else {
             error.textContent = "Invalid uuid";
         }
+    }
+}
+
+function showErrorSecondValue() {
+    if (anotherInput.validity.valueMissing) {
+        errorSecondField.textContent = "The field is required";
     }
 }

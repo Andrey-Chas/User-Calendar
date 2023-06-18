@@ -30,61 +30,90 @@
 const form = document.querySelector("form");
 const formShow = document.querySelector("#showData");
 const input = document.getElementById("value");
-const inputName = input.getAttribute("name");
+const label = document.getElementById("labelProvidedData");
 const error = document.querySelector(".error");
 
-const anotherInput = document.getElementById("anotherValue");
-const errorSecondField = document.querySelector(".errorSecondField");
+const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const uuid = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
 
-input.addEventListener("input", (event) => {
-    if (input.validity.valid) {
-        error.textContent = "";
+//input.addEventListener("input", (event) => {
+//    if (input.validity.valid) {
+//        error.textContent = "";
+//    }
+//    else {
+//        showError();
+//    }
+//});
+
+input.addEventListener("input", validate);
+
+function validate() {
+    if (input.validity.valueMissing) {
+        input.setCustomValidity("The field is required");
+    }
+    else if (!email.test(input.value) && !uuid.test(input.value)) {
+        input.setCustomValidity("Invalid email or uuid");
     }
     else {
-        showError();
+        input.setCustomValidity("");
     }
-});
 
-anotherInput.addEventListener("input", (event) => {
-    if (anotherInput.validity.valid) {
-        errorSecondField.textContent = "";
-    }
-    else {
-        showErrorSecondValue();
-    }
-});
+    error.textContent = "";
+}
 
-form.addEventListener("submit", (event) => {
-    if (!input.validity.valid) {
-        showError();
-        showErrorSecondValue();
+form.addEventListener("submit", function (event) {
+    if (!input.checkValidity()) {
         event.preventDefault();
+        error.textContent = input.validationMessage;
     }
     else {
         form.style.visibility = "collapse";
         formShow.style.visibility = "visible";
+        if (email.test(input.value)) {
+            label.innerHTML = "Email:"
+        }
+        else {
+            label.innerHTML = "Uuid:"
+        }
         document.getElementById("enteredData").value = input.value;
-        document.getElementById("anotherEnteredData").value = anotherInput.value;
         event.preventDefault();
     }
 });
 
-function showError() {
-    if (input.validity.valueMissing) {
-        error.textContent = "The field is required";
-    }
-    else if (input.validity.patternMismatch) {
-        if (inputName == "email") {
-            error.textContent = "Invalid email address";
-        }
-        else {
-            error.textContent = "Invalid uuid";
-        }
-    }
-}
+//anotherInput.addEventListener("input", (event) => {
+//    if (anotherInput.validity.valid) {
+//        errorSecondField.textContent = "";
+//    }
+//    else {
+//        showErrorSecondValue();
+//    }
+//});
 
-function showErrorSecondValue() {
-    if (anotherInput.validity.valueMissing) {
-        errorSecondField.textContent = "The field is required";
-    }
-}
+//form.addEventListener("submit", (event) => {
+//    if (!input.validity.valid) {
+//        showError();
+//        // showErrorSecondValue();
+//        event.preventDefault();
+//    }
+//    else {
+//        form.style.visibility = "collapse";
+//        formShow.style.visibility = "visible";
+//        document.getElementById("enteredData").value = input.value;
+//        document.getElementById("anotherEnteredData").value = anotherInput.value;
+//        event.preventDefault();
+//    }
+//});
+
+//function showError() {
+//    if (input.validity.valueMissing) {
+//        error.textContent = "The field is required";
+//    }
+//    else if (!email.test(input.value)) {
+//        error.textContent = "Invalid email or uuid";
+//    }
+//}
+
+//function showErrorSecondValue() {
+//    if (anotherInput.validity.valueMissing) {
+//        errorSecondField.textContent = "The field is required";
+//    }

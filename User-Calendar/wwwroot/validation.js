@@ -32,22 +32,26 @@ const formShow = document.querySelector("#showData");
 const input = document.getElementById("value");
 const label = document.getElementById("labelProvidedData");
 const error = document.querySelector(".error");
-const container = document.getElementById("container");
+const title = document.getElementById("title");
+const date = document.getElementById("date");
+const organizer = document.getElementById("organizer");
+const link = document.getElementById("link");
 
-const dataToFetch = [
-    {
-        "summary": "supetest",
-        "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
-        "start": {
-            "dateTime": "2023-06-17T14:00:00"
-        },
-        "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
-        "organizer": {
-            "email": "outlook_556C818D2795D20F@outlook.com"
-        },
-        "link": "https://link.com"
-    }
-]
+const dataToFetch = {
+    "summary": "supetest",
+    "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
+    "start": {
+        "dateTime": "2023-06-17T14:00:00"
+    },
+    "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
+    "organizer": {
+        "email": "outlook_556C818D2795D20F@outlook.com"
+    },
+    "link": "https://link.com"
+}
+
+const data = JSON.stringify(dataToFetch);
+localStorage.setItem("JSONData", data);
 
 const email = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 const uuid = /^[0-9a-fA-F]{8}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{4}\b-[0-9a-fA-F]{12}$/gi;
@@ -85,35 +89,45 @@ form.addEventListener("submit", function (event) {
     else {
         form.style.visibility = "collapse";
         formShow.style.visibility = "visible";
-        fetchData();
+        displayData();
         event.preventDefault();
     }
 });
 
-function fetchData() {
-    fetch("./data.json")
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log(data);
-            var result = "";
-            for (var item in data) {
-                result += `
-                <div>Title: ${item.summary}</div>
-                <div>Start date: ${item.start.dateTime}</div>
-                <div>Attendees: ${item.attendees}</div>
-                <div>Organizer: ${item.organizer.email}</div>
-                `;
-            }
-
-            container.innerHTML = result;
-        })
-        .catch(function (error) {
-            console.log(`Error fetching data: ${error}`);
-            container.innerHTML = "Error loading data";
-        })
+function displayData() {
+    var text = localStorage.getItem("JSONData");
+    var neededData = JSON.parse(text);
+    title.innerHTML = "Title: " + neededData.summary;
+    date.innerHTML = "Date: " + neededData.start.dateTime;
+    attendees.innerHTML = "Attendees: " + neededData.attendees;
+    organizer.innerHTML = "Organizer: " + neededData.organizer.email;
+    link.innerHTML = "Link: " + neededData.link;
 }
+
+//function fetchData() {
+//    fetch("data.json")
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (data) {
+//            console.log(data);
+//            var result = "";
+//            for (var item in data) {
+//                result += `
+//                <div>Title: ${item.summary}</div>
+//                <div>Start date: ${item.start.dateTime}</div>
+//                <div>Attendees: ${item.attendees}</div>
+//                <div>Organizer: ${item.organizer.email}</div>
+//                `;
+//            }
+
+//            container.innerHTML = result;
+//        })
+//        .catch(function (error) {
+//            console.log(`Error fetching data: ${error}`);
+//            container.innerHTML = "Error loading data";
+//        })
+//}
 
 //anotherInput.addEventListener("input", (event) => {
 //    if (anotherInput.validity.valid) {

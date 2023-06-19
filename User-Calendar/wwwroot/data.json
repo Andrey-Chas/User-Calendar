@@ -1,0 +1,14 @@
+[
+  {
+    "summary": "supetest",
+    "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
+    "start": {
+      "dateTime": "2023-06-17T14:00:00"
+    },
+    "attendees": [ "user1@gmail.com", "user2@gmail.com", "user3@gmail.com" ],
+    "organizer": {
+      "email": "outlook_556C818D2795D20F@outlook.com"
+    },
+    "link": "https://link.com"
+  }
+]

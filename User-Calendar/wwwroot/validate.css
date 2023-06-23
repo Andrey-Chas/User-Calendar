@@ -5,3 +5,11 @@
 .errorSecondField:empty .error:empty {
     display: none;
 }
+
+.text-bg-info:hover {
+    opacity: 75%;
+}
+
+.cellBorder {
+    border: solid 1px;
+}

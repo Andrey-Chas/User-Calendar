@@ -66,8 +66,16 @@ for (var i = 0; i < 7; i++) {
     }
 }
 
-function displayDataFromCalendar() {
-    document.getElementById("dataToDisplay").innerHTML = "Data";
+function displayDataFromCalendar(event) {
+    for (var i = 0; i < dataToFetch.length; i++) {
+        if (event.target.innerHTML == dataToFetch[i].summary) {
+            document.getElementById("title").innerHTML = "Title: " + dataToFetch[i].summary;
+            document.getElementById("date").innerHTML = "Date: " + dataToFetch[i].start.dateTime;
+            document.getElementById("attendees").innerHTML = "Attendees: " + dataToFetch[i].attendees;
+            document.getElementById("organizer").innerHTML = "Organizer: " + dataToFetch[i].organizer.email;
+            document.getElementById("link").innerHTML = "Link: " + dataToFetch[i].link;
+        }
+    }
 }
 
 for (var calendarCell of calendarCells) {
@@ -156,11 +164,6 @@ form.addEventListener("submit", function (event) {
 function displayData() {
     var text = localStorage.getItem("JSONData");
     var neededData = JSON.parse(text);
-    title.innerHTML = "Title: " + neededData[0].summary;
-    date.innerHTML = "Date: " + neededData[0].start.dateTime;
-    attendees.innerHTML = "Attendees: " + neededData[0].attendees;
-    organizer.innerHTML = "Organizer: " + neededData[0].organizer.email;
-    link.innerHTML = "Link: " + neededData[0].link;
 }
 
 //function fetchData() {

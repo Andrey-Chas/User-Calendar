@@ -3,6 +3,7 @@ const date = document.getElementById("date");
 const organizer = document.getElementById("organizer");
 const link = document.getElementById("link");
 const calendarCells = document.querySelectorAll(".text-bg-info");
+const rawSwitch = document.getElementById("rawSwitch");
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const d = new Date();
 const dataToFetch = [
@@ -10,7 +11,7 @@ const dataToFetch = [
         "summary": "supetest",
         "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
         "start": {
-            "dateTime": "2023-06-27T14:00:00"
+            "dateTime": "2023-06-29T14:00:00"
         },
         "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
         "organizer": {
@@ -22,7 +23,7 @@ const dataToFetch = [
         "summary": "supetest1",
         "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
         "start": {
-            "dateTime": "2023-06-29T14:00:00"
+            "dateTime": "2023-07-05T14:00:00"
         },
         "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
         "organizer": {
@@ -66,7 +67,16 @@ function displayDataFromCalendar(event) {
             document.getElementById("attendees").innerHTML = "Attendees: " + dataToFetch[i].attendees;
             document.getElementById("organizer").innerHTML = "Organizer: " + dataToFetch[i].organizer.email;
             document.getElementById("link").innerHTML = "Link: " + dataToFetch[i].link;
+            document.getElementById("rawData").innerHTML = JSON.stringify(dataToFetch[i], null, 2);
         }
+    }
+    if (rawSwitch.checked != true) {
+        document.getElementById("dataDisplay").style.display = "block";
+        document.getElementById("rawDataDisplay").style.display = "none";
+    }
+    else {
+        document.getElementById("dataDisplay").style.display = "none";
+        document.getElementById("rawDataDisplay").style.display = "block";
     }
 }
 
@@ -74,9 +84,19 @@ for (var calendarCell of calendarCells) {
     calendarCell.addEventListener("click", displayDataFromCalendar);
 }
 
+rawSwitch.addEventListener("click", displayDataFromCalendar);
+
 for (var i = 0; i < dataToFetch.length; i++) {
+    count = 1;
+    var dateFromObject = new Date(dataToFetch[i].start.dateTime);
     for (var j = 0; j < dates.length; j++) {
-        if (new Date(dataToFetch[i].start.dateTime).getDate() == dates[j]) {
+        if (dateFromObject.getMonth() == month + 1) {
+            month++;
+            if (month == 11) {
+                month = 0;
+            }
+        }
+        if (dateFromObject.getDate() == dates[j] && dateFromObject.getMonth() == month) {
             document.getElementById("p" + (j + 1)).innerHTML = dataToFetch[i].summary;
         }
     }

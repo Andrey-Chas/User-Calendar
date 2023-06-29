@@ -41,16 +41,23 @@
             </div>
         </div>
     </div>
-    <div class="container min-vh-100 d-flex justify-content-center align-items-center">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 500px">
         <div class="mb-3 row">
-            <div class="col-sm-8 w-100">
+            <div id="dataDisplay" class="col-sm-8 w-100" style="display: block">
                 <div id="title"></div>
                 <div id="date"></div>
                 <div id="attendees"></div>
                 <div id="organizer"></div>
                 <div id="link"></div>
             </div>
+            <div id="rawDataDisplay" style="display: none">
+                <pre id="rawData"></pre>
+            </div>
         </div>
+    </div>
+    <div class="form-check form-switch position-absolute bottom-0 end-0 m-1">
+        <label class="form-check-label" for="rawSwitch">Raw data</label>
+        <input class="form-check-input" type="checkbox" role="switch" id="rawSwitch" />
     </div>
 
 

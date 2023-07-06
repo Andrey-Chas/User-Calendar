@@ -6,32 +6,7 @@ const calendarCells = document.querySelectorAll(".text-bg-info");
 const rawSwitch = document.getElementById("rawSwitch");
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const d = new Date();
-const dataToFetch = [
-    {
-        "summary": "supetest",
-        "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
-        "start": {
-            "dateTime": "2023-06-29T14:00:00"
-        },
-        "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
-        "organizer": {
-            "email": "outlook_556C818D2795D20F@outlook.com"
-        },
-        "link": "https://link.com"
-    },
-    {
-        "summary": "supetest1",
-        "id": "AQMkADAwATM0MDAAMS1iOTBmLTc3AGVjLTAwAi0wMAoARgAAA5qCGGg3EJFKqTdXg9Db-0UHALP8zwkk-ehHnIL88hsNTfcAAAIBDQAAALP8zwkk-ehHnIL88hsNTfcABkayNS0AAAA=",
-        "start": {
-            "dateTime": "2023-07-05T14:00:00"
-        },
-        "attendees": ["user1@gmail.com", "user2@gmail.com", "user3@gmail.com"],
-        "organizer": {
-            "email": "outlook_556C818D2795D20F@outlook.com"
-        },
-        "link": "https://link.com"
-    }
-]
+var dataFromServer = "Data";
 var dayToGet = d.getDay();
 var count = 0;
 var totalDays = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
@@ -59,15 +34,51 @@ for (var i = 0; i < 7; i++) {
     }
 }
 
+fetch("http://127.0.0.1:8081/get_calendar_events", {
+    method: "GET",
+    headers: {
+        accept: "application/json",
+    },
+}).then(function (response) {
+    return response.json();
+}).then(function (data) {
+    displayDataOnCalendar(data);
+    dataFromServer = data;
+}).catch(function (error) {
+    console.log(`Error Fetching Data: ${error}`);
+})
+
+//async function post(data) {
+//    try {
+//        const response = await fetch("http://127.0.0.1:8081/get_calendar_events", {
+//            method: "POST",
+//            headers: {
+//                "Content-Type": "application/json",
+//            },
+//            body: JSON.stringify(data),
+//        });
+
+//        const result = await response.json();
+//        console.log("Success: ", result);
+//        return result.text;
+//    }
+//    catch (error) {
+//        console.error("Error: ", error);
+//    }
+//}
+
+//const data = { text: "test@gmail.com" };
+//post(data);
+
 function displayDataFromCalendar(event) {
-    for (var i = 0; i < dataToFetch.length; i++) {
-        if (event.target.innerHTML == dataToFetch[i].summary) {
-            document.getElementById("title").innerHTML = "Title: " + dataToFetch[i].summary;
-            document.getElementById("date").innerHTML = "Date: " + dataToFetch[i].start.dateTime;
-            document.getElementById("attendees").innerHTML = "Attendees: " + dataToFetch[i].attendees;
-            document.getElementById("organizer").innerHTML = "Organizer: " + dataToFetch[i].organizer.email;
-            document.getElementById("link").innerHTML = "Link: " + dataToFetch[i].link;
-            document.getElementById("rawData").innerHTML = JSON.stringify(dataToFetch[i], null, 2);
+    for (var i = 0; i < dataFromServer.length; i++) {
+        if (event.target.innerHTML == dataFromServer[i].summary) {
+            document.getElementById("title").innerHTML = "Title: " + dataFromServer[i].summary;
+            document.getElementById("date").innerHTML = "Date: " + dataFromServer[i].start.dateTime;
+            document.getElementById("attendees").innerHTML = "Attendees: " + dataFromServer[i].attendees;
+            document.getElementById("organizer").innerHTML = "Organizer: " + dataFromServer[i].organizer.email;
+            document.getElementById("link").innerHTML = "Link: " + dataFromServer[i].link;
+            document.getElementById("rawData").innerHTML = JSON.stringify(dataFromServer[i], null, 2);
         }
     }
     if (rawSwitch.checked != true) {
@@ -86,18 +97,22 @@ for (var calendarCell of calendarCells) {
 
 rawSwitch.addEventListener("click", displayDataFromCalendar);
 
-for (var i = 0; i < dataToFetch.length; i++) {
-    count = 1;
-    var dateFromObject = new Date(dataToFetch[i].start.dateTime);
-    for (var j = 0; j < dates.length; j++) {
-        if (dateFromObject.getMonth() == month + 1) {
-            month++;
-            if (month == 11) {
-                month = 0;
+function displayDataOnCalendar(data) {
+    for (var i = 0; i < data.length; i++) {
+        count = 1;
+        var dateFromObject = new Date(data[i].start.dateTime);
+        for (var j = 0; j < dates.length; j++) {
+            if (dateFromObject.getMonth() == month + 1) {
+                month++;
+                if (month == 11) {
+                    month = 0;
+                }
             }
-        }
-        if (dateFromObject.getDate() == dates[j] && dateFromObject.getMonth() == month) {
-            document.getElementById("p" + (j + 1)).innerHTML = dataToFetch[i].summary;
+            if (dateFromObject.getDate() == dates[j] && dateFromObject.getMonth() == month) {
+                document.getElementById("p" + (j + 1)).innerHTML = data[i].summary;
+            }
         }
     }
 }
+
+

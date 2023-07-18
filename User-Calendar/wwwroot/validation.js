@@ -68,9 +68,29 @@ form.addEventListener("submit", function (event) {
     }
     else {
         Redirect();
+        if (email.test(input.value)) {
+            var data = { email: input.value };
+            dataFetch(data);
+        }
+        else {
+            var data = { user_uuid: input.value };
+            dataFetch(data);
+        }
         event.preventDefault();
     }
 });
+
+function dataFetch(data) {
+    fetch("http://127.0.0.1:8081/post_data", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    }).then(function (response) {
+        return response.json();
+    }).catch(function (error) {
+        console.error("Error:", error);
+    })
+}
 
 function Redirect() {
     window.location.href = "calendar.html";

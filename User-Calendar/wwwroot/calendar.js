@@ -84,12 +84,16 @@ function displayDataFromCalendar(event) {
     if (rawSwitch.checked != true) {
         document.getElementById("dataDisplay").style.display = "block";
         document.getElementById("rawDataDisplay").style.display = "none";
+        localStorage.setItem("rawData", false);
     }
     else {
         document.getElementById("dataDisplay").style.display = "none";
         document.getElementById("rawDataDisplay").style.display = "block";
+        localStorage.setItem("rawData", true);
     }
 }
+
+rawSwitch.checked = JSON.parse(localStorage.getItem("rawData"));
 
 for (var calendarCell of calendarCells) {
     calendarCell.addEventListener("click", displayDataFromCalendar);
@@ -99,7 +103,6 @@ rawSwitch.addEventListener("click", displayDataFromCalendar);
 
 function displayDataOnCalendar(data) {
     for (var i = 0; i < data.length; i++) {
-        count = 1;
         var dateFromObject = new Date(data[i].start.dateTime);
         for (var j = 0; j < dates.length; j++) {
             if (dateFromObject.getMonth() == month + 1) {
